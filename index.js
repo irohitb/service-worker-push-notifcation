@@ -17,23 +17,29 @@ const check = () => {
     if(permission !== 'granted'){
         throw new Error('Permission not granted for Notification');
     }
-   
 }
 
-  // Async so we can use await 
-  const  main = async () => {
-    check()
-    const swRegistration = await registerServiceWorker();
-    const permission =  await requestNotificationPermission();
-  }
-
+const showLocalNotification = (title, body, swRegistration) => {
+  const options = {
+      body,
+      // here you can add more properties like icon, image, vibrate, etc.
+  };
+  swRegistration.showNotification(title, options);
+}
 
   //To run service worker we need to first register service worker 
-
   //Registering Service Worker
   const registerServiceWorker = async () => {
     const swRegistration = await navigator.serviceWorker.register('service.js'); //notice the file name
     return swRegistration;
+}
+
+ // Async so we can use await 
+ const  main = async () => {
+  check()
+  const swRegistration = await registerServiceWorker();
+  const permission =  await requestNotificationPermission();
+  showLocalNotification('This is title', 'this is the message', swRegistration);
 }
 
 

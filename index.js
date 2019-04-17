@@ -7,7 +7,23 @@ const check = () => {
     }
     console.log(`Browser supports Pushmanager and Service worker`)
   }
-  const main = () => {
+
+  // Async so we can use await 
+  const  main = async () => {
     check()
+    const swRegistration = await registerServiceWorker();
   }
-  main()
+
+
+  //To run service worker we need to first register service worker 
+
+  //Registering Service Worker
+  const registerServiceWorker = async () => {
+    const swRegistration = await navigator.serviceWorker.register('service.js'); //notice the file name
+    return swRegistration;
+}
+
+
+//Executing our main function in the end 
+
+main()
